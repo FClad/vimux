@@ -122,6 +122,11 @@ function! _VimuxNearestPaneIndex()
   " Retrieve existing Tmux panes
   let l:panes = split(system("tmux list-panes"), "\n")
 
+  " Return the first pane if Vim is running in graphical mode
+  if has("gui_running")
+      return split(l:panes[0], ":")[0]
+  endif
+
   " Reverse pane order if the corresponding option is set
   if _VimuxOption("g:VimuxUseNearestReverse", 1)
 	  let l:panes = reverse(l:panes)
