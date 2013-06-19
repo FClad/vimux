@@ -122,6 +122,11 @@ function! _VimuxNearestPaneIndex()
   " Retrieve existing Tmux panes
   let l:panes = split(system("tmux list-panes"), "\n")
 
+  " Reverse pane order if the corresponding option is set
+  if _VimuxOption("g:VimuxUseNearestReverse", 1)
+	  let l:panes = reverse(l:panes)
+  endif
+
   " Return the first inactive pane
   for p in l:panes
     if match(p, "(active)") == -1
