@@ -119,11 +119,13 @@ function! _VimuxTmuxWindowIndex()
 endfunction
 
 function! _VimuxNearestPaneIndex()
-  let panes = split(system("tmux list-panes"), "\n")
+  " Retrieve existing Tmux panes
+  let l:panes = split(system("tmux list-panes"), "\n")
 
-  for i in panes
-    if match(panes[i], "(active)") == -1
-      return split(panes[i], ":")[0]
+  " Return the first inactive pane
+  for p in l:panes
+    if match(p, "(active)") == -1
+      return split(p, ":")[0]
     endif
   endfor
 
